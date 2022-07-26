@@ -2,8 +2,13 @@ name: Build & Push branches
 on:
   push:
     branches:
-      - 'develop'
       - 'main'
+      - 'develop'
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - 'develop'
 jobs:
   docker:
     runs-on: ubuntu-latest
