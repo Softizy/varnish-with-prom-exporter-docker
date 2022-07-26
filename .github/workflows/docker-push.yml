@@ -27,9 +27,7 @@ jobs:
       -
         name: Echo
         run: |
-          echo push : ${{ github.event_name != 'pull_request' }};
-          echo tags: ${{ steps.meta.outputs.tags }};
-          echop labels: ${{ steps.meta.outputs.labels }}
+          echo ${{ github.event_name != 'pull_request' }} ${{ steps.meta.outputs.tags }} ${{ steps.meta.outputs.labels }}
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
