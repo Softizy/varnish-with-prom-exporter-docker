@@ -25,12 +25,6 @@ jobs:
             softizy/varnish-with-prom-exporter-docker
             ghcr.io/softizy/varnish-with-prom-exporter-docker
       -
-        name: Show tags
-        run: echo '::notice title=TAGS::${{ steps.meta.outputs.tags }}'
-      -
-        name: Show labels
-        run: echo '::notice title=LABELS::${{ steps.meta.outputs.labels }}'
-      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       -
@@ -54,7 +48,6 @@ jobs:
       -
         name: Build and push
         uses: docker/build-push-action@v3
-        if: github.ref == 'refs/heads/develop'
         with:
           context: .
           platforms: linux/amd64,linux/arm64
