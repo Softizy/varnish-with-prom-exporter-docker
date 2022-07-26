@@ -25,9 +25,11 @@ jobs:
             softizy/varnish-with-prom-exporter-docker
             ghcr.io/softizy/varnish-with-prom-exporter-docker
       -
-        name: Echo
-        run: |
-          echo ${{ github.event_name != 'pull_request' }} ${{ steps.meta.outputs.tags }} ${{ steps.meta.outputs.labels }}
+        name: Show tags
+        run: echo '::notice title=TAGS::${{ steps.meta.outputs.tags }}'
+      -
+        name: Show labels
+        run: echo '::notice title=LABELS::${{ steps.meta.outputs.labels }}'
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
