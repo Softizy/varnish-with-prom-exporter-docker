@@ -6,11 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.1.0-1.6.1-1] - 2022-08-05
 ### Fixed
 - prom exporter varnish working directory
 
-## [7.1.0-1.6.1] - 2014-05-31
+## [7.1.0-1.6.1] - 2022-07-26
 ### Added
 - init repository
 
+[7.1.0-1.6.1-1]: https://github.com/Softizy/varnish-with-prom-exporter-docker/releases/tag/7.1.0-1.6.1-1
 [7.1.0-1.6.1]: https://github.com/Softizy/varnish-with-prom-exporter-docker/releases/tag/7.1.0-1.6.1
