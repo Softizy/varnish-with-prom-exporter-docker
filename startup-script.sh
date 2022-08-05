@@ -18,7 +18,7 @@ fi
 
 exec "$@" &
 
-/usr/sbin/prometheus_varnish_exporter -web.listen-address "0.0.0.0:9131" -web.telemetry-path "/metrics" -web.health-path "/health" &
+/usr/sbin/prometheus_varnish_exporter -web.listen-address "0.0.0.0:9131" -web.telemetry-path "/metrics" -web.health-path "/health" -n /tmp/varnish &
 
 wait -n
 
