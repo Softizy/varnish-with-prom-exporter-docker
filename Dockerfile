@@ -1,4 +1,4 @@
-FROM varnish:7.1
+FROM varnish:7.3
 
 LABEL org.opencontainers.image.authors="tech@softizy.com"
 LABEL org.opencontainers.image.source="https://github.com/Softizy/varnish-with-prom-exporter-docker"
