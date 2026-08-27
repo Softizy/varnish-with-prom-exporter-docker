@@ -9,7 +9,40 @@ on:
     branches:
       - 'develop'
 jobs:
+  test-platforms:
+    name: Test ${{ matrix.platform }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - platform: linux/amd64
+            tag: amd64
+          - platform: linux/arm64
+            tag: arm64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Build the platform image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          load: true
+          platforms: ${{ matrix.platform }}
+          tags: varnish-exporter-test:${{ matrix.tag }}
+      - name: Execute the exporter on its target architecture
+        run: |
+          docker run --rm \
+            --platform '${{ matrix.platform }}' \
+            --entrypoint /usr/sbin/prometheus_varnish_exporter \
+            'varnish-exporter-test:${{ matrix.tag }}' \
+            -version
+
   docker:
+    needs: test-platforms
     runs-on: ubuntu-latest
     steps:
       -
