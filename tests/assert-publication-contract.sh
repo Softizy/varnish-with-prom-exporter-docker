@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-workflow=".github/workflows/docker-push.yml"
+workflow="${WORKFLOW:-.github/workflows/docker-push.yml}"
 image="ghcr.io/softizy/varnish-with-prom-exporter-docker"
 
 if grep -R -Eq 'DOCKERHUB_(USERNAME|TOKEN)|destination_container_repo:[[:space:]]*softizy/varnish-with-prom-exporter-docker' .github/workflows; then
@@ -10,8 +10,10 @@ if grep -R -Eq 'DOCKERHUB_(USERNAME|TOKEN)|destination_container_repo:[[:space:]
 fi
 
 docker_job="$(sed -n '/^  docker:$/,$p' "$workflow")"
+packages_write_count="$(grep -Ec '^[[:space:]]+packages:[[:space:]]+write$' "$workflow" || true)"
 if ! grep -Fxq 'permissions:' "$workflow" ||
    ! grep -Fxq '  contents: read' "$workflow" ||
+   [ "$packages_write_count" -ne 1 ] ||
    ! printf '%s\n' "$docker_job" | grep -Fxq '    permissions:' ||
    ! printf '%s\n' "$docker_job" | grep -Fxq '      contents: read' ||
    ! printf '%s\n' "$docker_job" | grep -Fxq '      packages: write'; then
