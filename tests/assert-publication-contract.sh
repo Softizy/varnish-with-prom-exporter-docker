@@ -9,7 +9,11 @@ if grep -R -Eq 'DOCKERHUB_(USERNAME|TOKEN)|destination_container_repo:[[:space:]
   exit 1
 fi
 
-docker_job="$(sed -n '/^  docker:$/,$p' "$workflow")"
+docker_job="$(awk '
+  /^  docker:$/ { in_job=1 }
+  in_job && $0 !~ /^  docker:$/ && /^  [A-Za-z0-9_-]+:$/ { exit }
+  in_job { print }
+' "$workflow")"
 packages_write_count="$(grep -Ec '^[[:space:]]+packages:[[:space:]]+write$' "$workflow" || true)"
 if ! grep -Fxq 'permissions:' "$workflow" ||
    ! grep -Fxq '  contents: read' "$workflow" ||
