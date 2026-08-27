@@ -4,6 +4,16 @@ set -eu
 workflow=".github/workflows/docker-push.yml"
 image="ghcr.io/softizy/varnish-with-prom-exporter-docker"
 
+docker_job="$(sed -n '/^  docker:$/,$p' "$workflow")"
+if ! grep -Fxq 'permissions:' "$workflow" ||
+   ! grep -Fxq '  contents: read' "$workflow" ||
+   ! printf '%s\n' "$docker_job" | grep -Fxq '    permissions:' ||
+   ! printf '%s\n' "$docker_job" | grep -Fxq '      contents: read' ||
+   ! printf '%s\n' "$docker_job" | grep -Fxq '      packages: write'; then
+  echo "ERROR: only the publication job may grant packages: write to its GITHUB_TOKEN" >&2
+  exit 1
+fi
+
 if ! grep -Fxq "            ${image}" "$workflow"; then
   echo "ERROR: the publication workflow must target ${image}" >&2
   exit 1

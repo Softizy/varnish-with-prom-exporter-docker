@@ -8,6 +8,10 @@ on:
   pull_request:
     branches:
       - 'develop'
+
+permissions:
+  contents: read
+
 jobs:
   publication-contract:
     name: Validate publication contract
@@ -54,6 +58,9 @@ jobs:
     needs:
       - publication-contract
       - test-platforms
+    permissions:
+      contents: read
+      packages: write
     runs-on: ubuntu-latest
     steps:
       -
