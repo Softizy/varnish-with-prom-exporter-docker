@@ -4,6 +4,11 @@ set -eu
 workflow=".github/workflows/docker-push.yml"
 image="ghcr.io/softizy/varnish-with-prom-exporter-docker"
 
+if grep -R -Eq 'DOCKERHUB_(USERNAME|TOKEN)|destination_container_repo:[[:space:]]*softizy/varnish-with-prom-exporter-docker' .github/workflows; then
+  echo "ERROR: obsolete Docker Hub credentials must not remain in repository workflows" >&2
+  exit 1
+fi
+
 docker_job="$(sed -n '/^  docker:$/,$p' "$workflow")"
 if ! grep -Fxq 'permissions:' "$workflow" ||
    ! grep -Fxq '  contents: read' "$workflow" ||
