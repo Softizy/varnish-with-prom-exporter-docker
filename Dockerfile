@@ -19,7 +19,7 @@ RUN set -eux; \
       -ldflags="-s -w -X main.Version=1.6.1 -X main.VersionHash=88a7ace6e2128d902f8d54f4ca053d48881f0c7c" \
       -o /out/prometheus_varnish_exporter .
 
-FROM varnish:8.0
+FROM varnish:9.0
 
 LABEL org.opencontainers.image.authors="tech@softizy.com"
 LABEL org.opencontainers.image.source="https://github.com/Softizy/varnish-with-prom-exporter-docker"
